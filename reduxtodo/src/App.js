@@ -1,11 +1,13 @@
-import logo from './logo.svg';
 import './App.css';
-import AddItems from './components/addItem';
+import { Products } from './components/products';
+import { ProductList } from './components/ProductsList';
 
 function App() {
   return (
     <div className="App">
-      <AddItems />
+
+        <ProductList />
+                <Products />
     </div>
   );
 }

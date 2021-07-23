@@ -11,9 +11,9 @@ const AddItems = ()=> {
         <div>
             <button onClick={()=>{dispatch(increment())}}>Increment</button>
             <div>counter {counter}</div>
-            <button onClick={()=>{dispatch(decrement)}}>Decrement</button><br />
+            <button onClick={()=>{dispatch(decrement())}}>Decrement</button><br />
             <input type="text" onChange={(e)=>setValue(e.target.value)}></input>
-            <button onClick={()=>{dispatch(by_value)}}>By Value</button>
+            <button onClick={()=>{dispatch(by_value(value))}}>By Value</button>
         </div>
     )
 }
