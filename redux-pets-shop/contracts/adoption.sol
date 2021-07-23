@@ -1,4 +1,4 @@
-pragma solidity ^0.8.0;
+pragma solidity >=0.5.0 <= 0.7.0;
 
 contract Adoption {
     address[16] public adoption;
@@ -9,5 +9,7 @@ contract Adoption {
         return id;
     }
 
-    function 
+    function adopters() public returns(address[16] memory) {
+        return adoption;
+    }
 }

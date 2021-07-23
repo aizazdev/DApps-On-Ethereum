@@ -1,23 +1,19 @@
 import logo from './logo.svg';
 import './App.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { initWeb3 } from './store/adoptSlice';
 
 function App() {
+
+  const dispatch = useDispatch();
+  const web3 = useSelector((state)=> console.log("state => ", state.adoptReducer.web3));
+  useEffect(()=> {
+    dispatch(initWeb3());
+  });
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      hello redux pets-shop
     </div>
   );
 }
