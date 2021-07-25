@@ -64,7 +64,8 @@ export const adoptSlice = createSlice({
         address: null,
         adopters:[],
         loadingPet: false,
-        rejectedPet: false
+        rejectedPet: false,
+        errorMessage: ""
     },
     reducers: {
         adopt: ()=> {
@@ -87,7 +88,8 @@ export const adoptSlice = createSlice({
             state.loadingPet = true
         },
         [adoptPet.rejected]: (state, action)=> {
-            state.rejectedPet = true
+            state.rejectedPet = true;
+            state.errorMessage = action.error.message
         }
     }
 });

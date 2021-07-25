@@ -4,23 +4,18 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import {useSelector, useDispatch} from 'react-redux';
 import img from '../images/hero.jpg';
 import { adopt, adoptPet } from '../store/adoptSlice';
-import ShowToast from './toast';
 
 const Pets = () => {
     
     const [id, setId] = useState(null);
     const dispatch = useDispatch();
-    const adopters = useSelector((state)=>{return state.adoptReducer.adopters});
-    const contract = useSelector(({adoptReducer: {contract}}) => {return contract});
-    const address = useSelector(({adoptReducer: {address}}) => {return address});
-
-    // const adoptPet = async(e)=> {
-    //    const result = await contract.methods.adopt(e).send({from: address}); 
-    // }
-
+    const {adopters, contract, address} = useSelector((state)=>{return state.adoptReducer});
+    const {loadingPet, rejectedPet, errorMessage} = useSelector((state)=>{return state.adoptReducer} );
     return (
         <Container>
-            <ShowToast />
+            {(loadingPet == true) ? <h2>Loading</h2> :  "" }
+            {(rejectedPet == true) ? <h2>{errorMessage} </h2> : "" }
+            
             <Row>
                 {petsList.map((pet, ind) => {
                     return (
