@@ -8,6 +8,5 @@ export const store = configureStore({
     middleware: getDefaultMiddleware({
         serializableCheck: false,
         immutableCheck: false
-
     })
 });
