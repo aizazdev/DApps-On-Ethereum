@@ -6,11 +6,22 @@ SURGE LINK [pets-shop](pets-dapp-react.surge.sh).
 
 In the project directory, you can run:
 
-### `npm init in client folder`
+### `navigate to client`
 
-## Techonologies Used
+npm init
 
-[React]
-[Solidity]
-[WEB3JS]
-[REDUX]
+## How to run project
+
+#### Install metamask 
+#### Get test ethers from faucet 
+#### adopt pet or remove pet 
+#### send test ethers to my address  - 0xA54F6B9741e17fDd730DFC34DCFEC317c50939Eb
+
+
+## Technologies Used
+
+
+React
+Solidity
+WEB3JS
+REDUX
