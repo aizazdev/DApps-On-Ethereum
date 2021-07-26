@@ -35,11 +35,21 @@ export const initWeb3 = createAsyncThunk(
 export const adoptPet = createAsyncThunk(
     'AdoptPet',
     async(petId, thunkApi)=> {
-        
         const {contract, address} = thunkApi.getState().adoptReducer;
         const result = await contract.methods.adopt(petId).send({from: address});
         return {
             adopterAddress: result.from,
+            petId
+        }
+    }
+);
+
+export const removeAdoptPet = createAsyncThunk(
+    'RemoveAdoptPet',
+    async(petId, thunkApi)=> {
+        const {contract, address} = thunkApi.getState().adoptReducer;
+        const result = await contract.methods.removeAdopt(petId).send({from: address});
+        return {
             petId
         }
     }
@@ -82,15 +92,22 @@ export const adoptSlice = createSlice({
             state.adopters = action.payload
         },
         [adoptPet.fulfilled]: (state, action)=> {
-            state.adopters[action.payload.petId] = action.payload.adopterAddress
+            state.adopters[action.payload.petId] = action.payload.adopterAddress;
+            state.loadingPet = false;
+        },
+        [removeAdoptPet.fulfilled]: (state, action) => {
+            state.adopters[action.payload.petId] = "0x0000000000000000000000000000000000000000";
         },
         [adoptPet.pending]: (state, action)=> {
-            state.loadingPet = true
+            state.loadingPet = true;
+            state.rejectedPet = false;
         },
         [adoptPet.rejected]: (state, action)=> {
             state.rejectedPet = true;
+            state.loadingPet = false;
             state.errorMessage = action.error.message
-        }
+        },
+
     }
 });
 

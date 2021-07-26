@@ -10,10 +10,10 @@ import img from './images/hero.jpg';
 function App() {
 
   const dispatch = useDispatch();
-  const web3 = useSelector((state)=> console.log("state => ", state.adoptReducer));
     useEffect(()=> {
       dispatch(initWeb3());
     });
+
   return (
     <div className="App">
       <Hero />

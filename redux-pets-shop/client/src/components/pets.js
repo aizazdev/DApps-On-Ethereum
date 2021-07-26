@@ -3,7 +3,7 @@ import petsList from '../pets.json';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import {useSelector, useDispatch} from 'react-redux';
 import img from '../images/hero.jpg';
-import { adopt, adoptPet } from '../store/adoptSlice';
+import { adopt, adoptPet, removeAdoptPet } from '../store/adoptSlice';
 
 const Pets = () => {
     
@@ -11,9 +11,10 @@ const Pets = () => {
     const dispatch = useDispatch();
     const {adopters, contract, address} = useSelector((state)=>{return state.adoptReducer});
     const {loadingPet, rejectedPet, errorMessage} = useSelector((state)=>{return state.adoptReducer} );
+    console.log("Adopters => ", adopters);
     return (
         <Container>
-            {(loadingPet == true) ? <h2>Loading</h2> :  "" }
+            {(loadingPet == true) ? <img src="../images/loader.gif" style={{alignContent:"center"}}></img> :  "" }
             {(rejectedPet == true) ? <h2>{errorMessage} </h2> : "" }
             
             <Row>
@@ -31,7 +32,13 @@ const Pets = () => {
                                         // adoptPet(e.target.value);
                                         dispatch(adoptPet(pet.id));                 
                                     }} >Adopt</Button> : 
-                                    <Button disabled variant="primary">Adopted</Button>
+                                    <div>
+                                        <Button disabled variant="primary">Adopted</Button>
+                                        <Button  variant="primary" value={pet.id} onClick={(e)=> {
+                                        // adoptPet(e.target.value);
+                                        dispatch(removeAdoptPet(pet.id));                 
+                                    }}>Remove Adopted</Button>
+                                    </div>
                                     }
                                 </Card.Body>
                                 <Card.Footer className="text-muted">{adopters[pet.id] !== "0x0000000000000000000000000000000000000000" ? adopters[pet.id] : "" }</Card.Footer>

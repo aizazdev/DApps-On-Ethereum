@@ -12,4 +12,10 @@ contract Adoption {
     function adopters() public returns(address[16] memory) {
         return adoption;
     }
+
+    function removeAdopt(uint id) public returns(uint){
+        require(id >= 0 && id <= 16, "Pets need to be less than 16");
+        adoption[id] = 0x0000000000000000000000000000000000000000;
+        return id;
+    }
 }
