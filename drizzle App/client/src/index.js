@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Drizzle } from "@drizzle/store";
 import Sample from './contracts/Sample.json';
+import { DrizzleContext } from '@drizzle/react-plugin'
 
 const options = {
   contracts: [Sample],
@@ -20,7 +21,9 @@ const drizzle = new Drizzle(options);
 
 ReactDOM.render(
   <React.StrictMode>
-    <App drizzle={drizzle} />
+    <DrizzleContext.Provider drizzle={drizzle}>
+      <App />
+    </DrizzleContext.Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
