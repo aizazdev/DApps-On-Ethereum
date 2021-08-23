@@ -4,11 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Drizzle } from "@drizzle/store";
-import Sample from './contracts/Sample.json';
+import Paintings from './contracts/PaitingsNFT.json';
 import { DrizzleContext } from '@drizzle/react-plugin'
 
 const options = {
-  contracts: [Sample],
+  contracts: [Paintings],
   web3: {
     fallback: {
       type: "ws",
@@ -16,7 +16,7 @@ const options = {
     },
   },
 };
-
+console.log("paintings ", Paintings);
 const drizzle = new Drizzle(options);
 
 ReactDOM.render(

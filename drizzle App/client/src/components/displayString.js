@@ -7,16 +7,18 @@ const DisplayString = ()=> {
     const [dataKey, setdataKey] = useState(null);
 
     useEffect(() => {
-        const contract = drizzle.contracts.Sample;
-        const dataKey = contract.methods["myString"].cacheCall();
+        const contract = drizzle.contracts.PaitingsNFT;
+        const dataKey = contract.methods["symbol"].cacheCall();
+       console.log('datakey',dataKey);
         setdataKey(dataKey);
     }, []);
-    const { Sample } = drizzleState.contracts;
-    const myString = Sample.myString[dataKey];
+
+    const DR = drizzleState.contracts;
+    console.log("dr" , DR);    
 
     return(
         <div>
-            <h2>My stored string: {myString && myString.value}</h2>;
+            <h2>My stored string: </h2>;
         </div>
     )
 }

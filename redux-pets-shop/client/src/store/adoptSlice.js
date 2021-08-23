@@ -13,10 +13,7 @@ export const initWeb3 = createAsyncThunk(
                 const network = Adoption.networks[networdId];
                 const contract = new web3.eth.Contract(Adoption.abi, network.address);
                 const addresses = await web3.eth.getAccounts();
-                thunkApi.dispatch(loadAdopters({
-                    contract: contract,
-                    address: addresses[0]
-                }));                
+                               
                 return {
                     web3,
                     contract,
