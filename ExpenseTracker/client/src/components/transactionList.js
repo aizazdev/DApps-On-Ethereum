@@ -28,7 +28,7 @@ export const TransactionList = () => {
     dispatch(transactionCount());
     dispatch(transactionList({count: Number(count)}));
    }, 1000);
-
+   
   return (
     <>
       <h3>History</h3>
