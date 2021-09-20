@@ -11,13 +11,15 @@ import {
 } from "react-router-dom";
 import AddNFT from './components/addNFT';
 import Paintings from './components/paintings';
-
+import web3 from 'web3';
 
 function App() {
   const dispatch = useDispatch();
-  useEffect(()=> {
+
+  useEffect(async () => {
     dispatch(initWeb3());
-  });
+  }, []);
+
 
   return (
     <div>

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Container, Row, Col, Form,Button} from 'react-bootstrap';
 import {useSelector, useDispatch} from 'react-redux';
 import Paintings from '../contracts/PaitingsNFT.json';
-import { addPainting,getAllPaintings } from '../store/paintingSlice';
+import { addPainting, getAllPaintings } from '../store/paintingSlice';
 import ipfs from '../ipfs';
 import Web3 from 'web3';
 

@@ -1,20 +1,25 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import Paintings from '../contracts/PaitingsNFT.json';
 import Web3 from 'web3';
-import { ethers } from "ethers";
 
 export const initWeb3 = createAsyncThunk(
     'InitWeb3',
     async(data, thunkApi)=> {
         try {
-            if(ethers.providers) {
-                const provider = new ethers.providers.Web3Provider(window.ethereum);
-                const signer = provider.getSigner();
-                console.log("signer", signer);
-                const network = (await provider.getNetwork()).ensAddress;
-                console.log("network ", network);
-                const contract = new ethers.Contract(network, Paintings.abi, provider);
-                console.log("Contract ", await contract.printingsCount());
+            if(Web3.givenProvider) {
+                const web3 = new Web3(Web3.givenProvider);
+                await Web3.givenProvider.enable();
+                const networdId = await web3.eth.net.getId();
+                const network = Paintings.networks[networdId];
+                const contract = new web3.eth.Contract(Paintings.abi, network.address);
+                const addresses = await web3.eth.getAccounts();
+                               
+                return {
+                    web3,
+                    contract,
+                    address: addresses[0]
+                }
+    
             } else {
                 console.log("error in web3  ");
             }
@@ -46,13 +51,14 @@ export const getAllPaintings = createAsyncThunk(
 );
 
 export const paintingSlice = createSlice({
-    name: "paintings",
+    name: "painting",
     initialState: {
         contract: null,
         web3: null,
         address: null,
-        paintings: null,
-        response: null
+        list: [],
+        transactionLoading: false,
+        count: null
     },
     reducers: {
         adopt: ()=> {
@@ -65,15 +71,9 @@ export const paintingSlice = createSlice({
             state.contract = action.payload.contract;
             state.address = action.payload.address;
         },
-        [addPainting.fulfilled]: (state, action) => {
-            console.log("state, action", state, action);
-            state.response = action.payload
-        },
-        [getAllPaintings.fulfilled]: (state, action) => {
-            state.paintings = action.payload
-        }
+    
     }
 });
 
 export const paintingReducer = paintingSlice.reducer;
-export const { adopt } = paintingSlice.actions;
+export const {  } = paintingSlice.actions;
