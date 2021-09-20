@@ -14,8 +14,8 @@ import Paintings from './components/paintings';
 import web3 from 'web3';
 
 function App() {
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
   useEffect(async () => {
     dispatch(initWeb3());
   }, []);

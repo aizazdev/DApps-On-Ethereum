@@ -67,13 +67,11 @@ export const paintingSlice = createSlice({
     },
     extraReducers: {
         [initWeb3.fulfilled]: (state, action)=> {
-            state.web3 = action.payload.web3;
-            state.contract = action.payload.contract;
-            state.address = action.payload.address;
+            console.log(state.web3);
         },
     
     }
 });
 
 export const paintingReducer = paintingSlice.reducer;
-export const {  } = paintingSlice.actions;
+export const { adopt } = paintingSlice.actions;
