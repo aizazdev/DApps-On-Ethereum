@@ -14,7 +14,6 @@
 # api keys
 .env
 .secret
-
 # misc
 .DS_Store
 .env.local
