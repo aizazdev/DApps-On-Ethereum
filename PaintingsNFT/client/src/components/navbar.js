@@ -30,6 +30,12 @@ const MyNavbar = ()=> {
             </Navbar>
         </div>
       </div>
+      <div>
+        <Switch>
+          <Route path="/addnft" component={AddNFT}></Route>
+          <Route exact path="/" component={Paintings}></Route>
+        </Switch>
+      </div>
     </Router>
   );
 }

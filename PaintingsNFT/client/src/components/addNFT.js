@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Container, Row, Col, Form,Button} from 'react-bootstrap';
+import {Container, Row, Col, Form,Button, Spinner} from 'react-bootstrap';
 import {useSelector, useDispatch} from 'react-redux';
-import Paintings from '../contracts/PaitingsNFT.json';
-import { addPainting, getAllPaintings } from '../store/paintingSlice';
+import { addPainting, paintingsCount, getAllPaintings } from '../store/paintingSlice';
 import ipfs from '../ipfs';
 import Web3 from 'web3';
 
@@ -11,13 +10,14 @@ const AddNFT = ()=> {
     const[price, setPrice] = useState(0);
     const[description, setDescription] = useState('');
     const[hash, setHash] = useState('');
-
-    const {contract, address, web3} = useSelector(state => {return state.paintingReducer});
+    const {contract, address, web3, count, loading} = useSelector(state => {return state.paintingReducer});
     const dispatch = useDispatch();
 
     let imageBuffer;
+       console.log("loading ", loading);
     const captureFile = async(e)=> {
-    e.preventDefault();
+    
+        e.preventDefault();
 
     const reader = new FileReader();
         reader.readAsArrayBuffer(e.target.files[0]);
@@ -30,7 +30,6 @@ const AddNFT = ()=> {
     const handleSubmit = async(e)=> {
         e.preventDefault();
         const {path} = await ipfs.add(imageBuffer);
-        console.log("path", path);
         dispatch(addPainting({name, price, description, path}));
     }
     return(
@@ -49,11 +48,23 @@ const AddNFT = ()=> {
                         <Form.Group controlId="formFileSm" className="mb-3">
                             <Form.Control type="file" size="sm" onChange={captureFile} required/>
                         </Form.Group>
-                        <Button type="submit">Add NFT</Button>
+                        {(loading == false) ? 
+                        <Button type="submit">Add NFT</Button> 
+                        : 
+                        <Button variant="primary" disabled>
+                        <Spinner
+                          as="span"
+                          animation="grow"
+                          size="sm"
+                          role="status"
+                          aria-hidden="true"
+                        />
+                        Loading...
+                      </Button>
+                        }
                     </form>
                 </>
                 </Col>
-                <Button onClick={()=>{dispatch(getAllPaintings(1))}}>Get paintngs</Button>
                 <Col xm={3} xs={2}></Col>
             </Row>
         </Container> 

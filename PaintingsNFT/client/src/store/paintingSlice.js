@@ -34,19 +34,63 @@ export const addPainting = createAsyncThunk(
     async(data, thunkApi)=> {
         const{contract, address} = thunkApi.getState().paintingReducer;
         const{name, price, description, path} = data;
-        const response = await contract.methods.addPainting(name, price, path, description).send({from: address});
-        console.log("respose ", response);   
+        const response = await contract.methods.addPainting(name, price, path, description).send({from: address});   
+    }
+);
+
+export const paintingsCount = createAsyncThunk(
+    'PaintingsCount',
+    async(data, thunkApi)=> {
+
+        const{contract, address} = thunkApi.getState().paintingReducer;
+        const response = await contract.methods.paintingsCount().call();
+        
+        return {
+            count: Number(response)
+        }
     }
 );
 
 export const getAllPaintings = createAsyncThunk(
     'GetAllPaintings',
     async(data, thunkApi)=> {
-        console.log("data", data);
+
         const{contract, address} = thunkApi.getState().paintingReducer;
-        const res = await contract.methods.getPaintingById(1).call({value: 200, gas: 30000, gasPriceInWei : 1000});
-        //const res = await contract.methods.name("aiixsx").send({from: address});
-        console.log("res ", res);
+        const list = [];
+        for(let i=0; i<data; i++) {
+            const {
+                name,
+                price,
+                description,
+                imageHash,
+                tokenId,
+                owner
+            } = await contract.methods.getPaintingById(i).call();
+            
+            let obj = {
+                name,
+                price, 
+                description,
+                imageHash,
+                tokenId,
+                owner
+            }
+            list.push(obj);
+        }
+        return {
+            list
+        }
+    }
+);
+
+export const transferNft = createAsyncThunk(
+    'TransferNFT',
+    async(data, thunkApi) => {
+        const{contract, address} = thunkApi.getState().paintingReducer;
+        //console.log("transfer addres", transferAddress, id);
+        const {transferAddress, id} = data;
+        const response = contract.methods.safeTransferFrom(address, transferAddress, id).send({from: address});
+        console.log("response", response);
     }
 );
 
@@ -56,9 +100,10 @@ export const paintingSlice = createSlice({
         contract: null,
         web3: null,
         address: null,
-        list: [],
-        transactionLoading: false,
-        count: null
+        count: null,
+        loading: false,
+        loading2: false,
+        list: []
     },
     reducers: {
         adopt: ()=> {
@@ -67,11 +112,32 @@ export const paintingSlice = createSlice({
     },
     extraReducers: {
         [initWeb3.fulfilled]: (state, action)=> {
-            console.log(state.web3);
+            state.web3 = action.payload.web3;
+            state.contract = action.payload.contract;
+            state.address = action.payload.address;
+        }, 
+        [addPainting.fulfilled]: (state, action) => {
+            state.loading = false
         },
-    
+        [addPainting.pending]: (state, action) => {
+            state.loading = true
+        },
+        [paintingsCount.fulfilled]: (state, action) => {
+            state.count = action.payload.count
+        },  
+        [getAllPaintings.fulfilled]: (state, action) => {
+            state.list = action.payload.list
+            state.loading2 = false
+        },
+         
+        [getAllPaintings.pending]: (state, action) => {
+            state.loading2 = true
+        },
+        [transferNft.fulfilled]: (state, action ) => {
+            console.log("transferNFT FULLFILLED");
+        },
     }
-});
+ });
 
 export const paintingReducer = paintingSlice.reducer;
 export const { adopt } = paintingSlice.actions;
